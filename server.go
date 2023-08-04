@@ -91,7 +91,7 @@ func (s *server) server(ctx context.Context, cancel func(), requestQueue chan re
 
 	for {
 		// invoke PowerShell.exe
-		rep, err := newRepeater(ctx)
+		rep, err := newRepeater(ctx, repeaterFile)
 		if err != nil {
 			return
 		}

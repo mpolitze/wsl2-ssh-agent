@@ -6,7 +6,9 @@ import (
 	_ "embed"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
+	"os"
 	"os/exec"
 	"strings"
 	"time"
@@ -28,7 +30,7 @@ var waitTimes []time.Duration = []time.Duration{
 }
 
 // invoke PowerShell.exe and run
-func newRepeater(ctx context.Context) (*repeater, error) {
+func newRepeater(ctx context.Context, repeaterFile string) (*repeater, error) {
 	for i, limit := range waitTimes {
 		log.Printf("invoking [W] in PowerShell.exe%s", trial(i))
 
@@ -47,6 +49,16 @@ func newRepeater(ctx context.Context) (*repeater, error) {
 		if err != nil {
 			log.Printf("failed to invoke [W]: %s", err)
 			continue
+		}
+
+		if repeaterFile != ""{
+			if _, err := os.Stat(repeaterFile); err == nil {
+				content, err := ioutil.ReadFile("repeater.ps1")
+				if err == nil {
+					log.Printf("take repeater.ps1 from file")
+					repeaterPs1 = string(content)
+				}
+			}
 		}
 
 		// write the source code

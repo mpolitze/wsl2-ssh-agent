@@ -16,12 +16,13 @@ import (
 )
 
 type config struct {
-	socketPath string
-	foreground bool
-	verbose    bool
-	stop       bool
-	logFile    string
-	version    bool
+	socketPath   string
+	foreground   bool
+	repeaterFile string
+	verbose      bool
+	stop         bool
+	logFile      string
+	version      bool
 }
 
 var version = "(development version)"
@@ -40,6 +41,7 @@ func newConfig() *config {
 
 	flag.StringVar(&c.socketPath, "socket", defaultSocketPath(), "a path of UNIX domain socket to listen")
 	flag.BoolVar(&c.foreground, "foreground", false, "run in foreground mode")
+	flag.StringVar(&c.repeaterFile, "repeaterFile", "", "read repeater powershell script from file")
 	flag.BoolVar(&c.verbose, "verbose", false, "verbose mode")
 	flag.StringVar(&c.logFile, "log", "", "a file path to write the log")
 	flag.BoolVar(&c.stop, "stop", false, "stop the daemon and exit")
